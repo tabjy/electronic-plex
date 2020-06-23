@@ -10,8 +10,9 @@ async function createWindow () {
     width: 800,
     height: 600,
     webPreferences: {
-      // TODO: enable webview
-    },
+      webviewTag: true,
+      nodeIntegration: true
+    }
   })
 
   await mainWindow.loadFile(path.join(__dirname, 'index.html'))
@@ -25,6 +26,11 @@ async function createWindow () {
 }
 
 async function main () {
+  if (process.platform === 'linux') {
+    // only do this on Linux, where dbus is used instead
+    app.commandLine.appendSwitch('disable-features', 'HardwareMediaKeyHandling,MediaSessionService')
+  }
+
   await app.whenReady()
   await createWindow()
 
@@ -35,7 +41,7 @@ async function main () {
     }
   })
 
-  app.on('window-all-closed', function () {
+  app.on('window-all-closed', () => {
     // don't quit for OSX
     if (process.platform !== 'darwin') {
       app.quit()
