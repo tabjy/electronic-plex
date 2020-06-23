@@ -1,0 +1,26 @@
+{
+  "name": "electronic-plex",
+  "version": "0.1.0",
+  "description": "an Electron wrapper turning your Plex media server into a desktop app",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "standard && echo \"Error: no test specified\" && exit 1",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tabjy/electronic-plex.git"
+  },
+  "author": "tabjy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tabjy/electronic-plex/issues"
+  },
+  "homepage": "https://github.com/tabjy/electronic-plex#readme",
+  "devDependencies": {
+    "electron": "^9.0.5",
+    "standard": "^14.3.4"
+  }
+}
