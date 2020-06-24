@@ -1,4 +1,4 @@
-# Electronic Plex
+# Electronic Plex ![electronic-plex source validation](https://github.com/tabjy/electronic-plex/workflows/electronic-plex%20source%20validation/badge.svg)
 
 an electron wrapper turning your Plex media player into a desktop application
 
