@@ -2,8 +2,6 @@ const path = require('path')
 
 const { app, BrowserWindow } = require('electron')
 
-const development = process.env.NODE_ENV !== 'production'
-
 async function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -18,7 +16,7 @@ async function createWindow () {
   await mainWindow.loadFile(path.join(__dirname, 'index.html'))
 
   // Open the DevTools.
-  if (development) {
+  if (!app.isPackaged) {
     mainWindow.webContents.openDevTools()
   } else {
     mainWindow.setMenu(null)

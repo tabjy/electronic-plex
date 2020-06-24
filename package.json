@@ -20,11 +20,13 @@
     "url": "https://github.com/tabjy/electronic-plex/issues"
   },
   "homepage": "https://github.com/tabjy/electronic-plex#readme",
+  "dependencies": {
+    "mpris-service": "^2.1.0",
+    "normalize.css": "^8.0.1"
+  },
   "devDependencies": {
     "electron": "^9.0.5",
     "electron-packager": "^14.2.1",
-    "mpris-service": "^2.1.0",
-    "normalize.css": "^8.0.1",
     "standard": "^14.3.4"
   }
 }
