@@ -1,26 +1,11 @@
 name: Build Release Assets
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types:
+      - created
 
 jobs:
-  release:
-    name: create release
-    runs-on: 'ubuntu-latest'
-    steps:
-      - name: create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
   linux:
     name: build for Linux
     runs-on: 'ubuntu-latest'
@@ -34,12 +19,21 @@ jobs:
           npm run build -- --platform=linux
           cd dist
           tar zcvf electronic-plex-linux-x64.tar.gz electronic-plex-linux-x64
+      - name: get release file name and upload URL
+        id: get_release_info
+        run: |
+          echo ::set-output name=file_name::${REPOSITORY_NAME##*/}-${TAG_REF_NAME##*/v} # RepositoryName-v1.0.0
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
+        env:
+          TAG_REF_NAME: ${{ github.ref }}
+          REPOSITORY_NAME: ${{ github.repository }}
       - name: upload Linux release asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ github.event.release.upload_url }}
           asset_path: ./dist/electronic-plex-linux-x64.tar.gz
           asset_name: electronic-plex-linux-x64.tar.gz
           asset_content_type: application/gzip
@@ -61,7 +55,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ github.event.release.upload_url }}
           asset_path: ./dist/electronic-plex-win32-x64.zip
           asset_name: electronic-plex-win32-x64.zip
           asset_content_type: application/zip
@@ -83,7 +77,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ github.event.release.upload_url }}
           asset_path: ./dist/electronic-plex-darwin-x64.zip
           asset_name: electronic-plex-darwin-x64.zip
           asset_content_type: application/zip
