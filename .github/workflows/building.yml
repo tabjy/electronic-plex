@@ -21,7 +21,8 @@ jobs:
           draft: false
           prerelease: false
 
-  build:
+  linux:
+    name: build for Linux
     runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
@@ -33,16 +34,6 @@ jobs:
           npm run build -- --platform=linux
           cd dist
           tar zcvf electronic-plex-linux-x64.tar.gz electronic-plex-linux-x64
-      - name: build for Windows
-        run: |
-          npm run build -- --platform=win32
-          cd dist
-          zip -r electronic-plex-win32-x64.zip electronic-plex-win32-x64
-      - name: build for OSX
-        run: |
-          npm run build -- --platform=darwin
-          cd dist
-          zip -r electronic-plex-darwin-x64.zip electronic-plex-darwin-x64
       - name: upload Linux release asset
         uses: actions/upload-release-asset@v1
         env:
@@ -52,6 +43,19 @@ jobs:
           asset_path: ./dist/electronic-plex-linux-x64.tar.gz
           asset_name: electronic-plex-linux-x64.tar.gz
           asset_content_type: application/gzip
+
+  windows:
+    runs-on: 'windows-latest'
+    steps:
+      - uses: actions/checkout@v2
+      - name: install dependencies
+        run: |
+          npm install
+      - name: build for Windows
+        run: |
+          npm run build -- --platform=win32
+          cd dist
+          zip -r electronic-plex-win32-x64.zip electronic-plex-win32-x64
       - name: upload Windows release asset
         uses: actions/upload-release-asset@v1
         env:
@@ -61,6 +65,19 @@ jobs:
           asset_path: ./dist/electronic-plex-win32-x64.zip
           asset_name: electronic-plex-win32-x64.zip
           asset_content_type: application/zip
+
+  macos:
+    runs-on: 'macos-latest'
+    steps:
+      - uses: actions/checkout@v2
+      - name: install dependencies
+        run: |
+          npm install
+      - name: build for macOS
+        run: |
+          npm run build -- --platform=darwin
+          cd dist
+          zip -r electronic-plex-darwin-x64.zip electronic-plex-darwin-x64
       - name: upload OSX release asset
         uses: actions/upload-release-asset@v1
         env:
@@ -69,4 +86,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dist/electronic-plex-darwin-x64.zip
           asset_name: electronic-plex-darwin-x64.zip
-          asset_content_type: application/gzip
+          asset_content_type: application/zip
