@@ -9,9 +9,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: install dependencies
         run: |
-          cd electronic-plex
           npm install
       - name: check formatting
         run: |
-          cd electronic-plex
           npm run lint
