@@ -1,4 +1,4 @@
-name: electronic-plex source validation
+name: Lint Source Code
 
 on: [push, pull_request]
 
