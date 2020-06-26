@@ -47,6 +47,11 @@ document.addEventListener('DOMContentLoaded', function () {
       audio.currentTime += position / 1000 / 1000
     }
   })
+  player.on('volume', (volume) => {
+    if (audio) {
+      audio.volume = volume
+    }
+  })
 
   setInterval(() => {
     audio = document.getElementsByTagName('audio')[0]
@@ -59,9 +64,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     player.metadata = {
       'mpris:length': ~~audio.duration * 1000 * 1000,
-      'xesam:title': document.title.slice(audio.paused ? 0 : 1)
+      'xesam:title': document.title.slice(audio.paused ? 0 : 2)
     }
     player.playbackStatus = audio.paused ? Player.PLAYBACK_STATUS_PAUSED : Player.PLAYBACK_STATUS_PLAYING
     player.getPosition = () => audio ? audio.currentTime * 1000 * 1000 : 0
+    player.volume = audio.volume
   }, 500)
 })
