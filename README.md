@@ -22,7 +22,7 @@ Download a prebuilt release from the [release page](https://github.com/tabjy/ele
   ```
 - Install dependencies.
   ```sh
-  $ cd prometheus-jfr-exporter
+  $ cd electronic-plex
   $ npm install
   ```
 - Build a release targeted to your current platform with [electron-packager](https://github.com/electron/electron-packager)
