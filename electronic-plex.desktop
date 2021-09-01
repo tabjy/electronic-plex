@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Electronic Plex
+Comment=Electron wrapper for Plex
+Exec=electronic-plex
+Icon=${SNAP}/electronic-plex/electronic-plex.png
+Type=Application
+StartupNotify=true
+Categories=GNOME;GTK;Network;
+Keywords=internet;media;
