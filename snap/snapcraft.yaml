@@ -1,0 +1,43 @@
+name: electronic-plex
+version: '0.1.2'
+summary: Electron wrapper for Plex Webapp
+description: |
+  The Plex Webapp as a desktop application
+base: core20
+confinement: strict
+grade: stable
+
+apps:
+  electronic-plex:
+    command: electronic-plex/electronic-plex --no-sandbox
+    extensions: [gnome-3-38]
+    desktop: electronic-plex/electronic-plex.desktop
+    plugs:
+    - audio-playback
+    - browser-support
+    - network
+    - network-bind
+    environment:
+      # Correct the TMPDIR path for Chromium Framework/Electron to ensure
+      # libappindicator has readable resources.
+      TMPDIR: $XDG_RUNTIME_DIR
+
+parts:
+  electronic-plex:
+    plugin: nil
+    source: .
+    override-build: |
+        npm install electron electron-packager
+        npx electron-packager . --overwrite --platform=linux --output=release-build --prune=true
+        cp -rv ./electronic-plex-linux-* $SNAPCRAFT_PART_INSTALL/electronic-plex
+        cp -rv ./electronic-plex.desktop $SNAPCRAFT_PART_INSTALL/electronic-plex
+        cp -rv ./electronic-plex.png $SNAPCRAFT_PART_INSTALL/electronic-plex
+    build-snaps:
+    - node/14/stable
+    build-packages:
+    - unzip
+    stage-packages:
+    - libnss3
+    - libnspr4
+    - libxss1
+
